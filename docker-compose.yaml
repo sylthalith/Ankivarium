@@ -1,0 +1,37 @@
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "1000:80"
+    volumes:
+      - ./_docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/var/www/html/public
+    depends_on:
+      - app
+  app:
+    build:
+      dockerfile: ./_docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+  vite:
+    build:
+      dockerfile: ./_docker/vite/Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: npm run dev
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ankivarium
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8101:3306"
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
