@@ -14,7 +14,7 @@ header {
 input {
     /*width: 320px;*/
     width: calc(100% - 35px);
-    min-width: 40px;
+    min-width: 100px;
     padding-left: 10px;
 }
 
