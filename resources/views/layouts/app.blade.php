@@ -11,7 +11,32 @@
     @stack('styles')
 </head>
 <body>
-    {{ $slot }}
+    <nav>
+        @auth
+            <div class="title">
+                Ankivarium
+            </div>
+            <div class="menu">
+                <a href="#">Главная</a>
+                <a href="#">Карточки</a>
+                <a href="#">Статистика</a>
+            </div>
+            <div class="profile">
+                <a href="#">User</a>
+            </div>
+        @else
+            <div class="title">
+                Ankivarium
+            </div>
+            <div class="menu">
+                <a href="{{ route('login') }}">Вход</a>
+                <a href="{{ route('register') }}">Регистрация</a>
+            </div>
+        @endauth
+    </nav>
+    <div class="content">
+        {{ $slot }}
+    </div>
     @vite(['resources/js/app.js'])
     @stack('scripts')
 </body>

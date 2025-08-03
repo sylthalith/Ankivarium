@@ -1,0 +1,86 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 140px;
+}
+
+.search-menu {
+    display: flex;
+    height: 35px;
+    width: 25%;
+}
+
+input {
+    /*width: 320px;*/
+    width: calc(100% - 35px);
+    min-width: 40px;
+    padding-left: 10px;
+}
+
+.search {
+    display: flex;
+    height: 35px;
+    filter: brightness(0) invert(1);
+}
+
+.new-deck {
+    padding: 6px 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.plus {
+    width: 10px;
+    filter: brightness(0) invert(1);
+    margin-right: 5px;
+}
+
+.decks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr) );
+    gap: 1.5rem;
+}
+
+.deck {
+    display: flex;
+    flex-direction: column;
+    background-color: #252a37;
+    border-radius: 5px;
+    padding: 24px;
+    gap: 16px;
+}
+
+progress {
+    width: 100%;
+}
+
+/* Цвет заполненной части (Chrome, Edge, Safari) */
+progress::-webkit-progress-value {
+    background-color: #f8453f; /* Зелёный */
+    border-radius: 5px;
+}
+
+/* Цвет фона (незаполненной части) */
+progress::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-btn img {
+    width: 20px;
+}
