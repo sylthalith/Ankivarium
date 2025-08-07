@@ -50,4 +50,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Deck::class);
     }
+
+    public function cards()
+    {
+        return $this->hasManyThrough(
+            Card::class,
+            Deck::class,
+            'user_id',   // foreign key в decks
+            'deck_id',   // foreign key в cards
+            'id',        // локальный ключ в users
+            'id'         // локальный ключ в decks
+        );
+    }
 }
