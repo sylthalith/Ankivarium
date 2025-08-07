@@ -18,16 +18,23 @@ input {
     padding-left: 10px;
 }
 
+.search-menu button {
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .search {
     display: flex;
-    height: 35px;
+    height: 25px;
     filter: brightness(0) invert(1);
 }
 
 .new-deck {
     padding: 6px 20px;
     border-radius: 5px;
-    display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -81,6 +88,17 @@ progress::-webkit-progress-bar {
     align-items: center;
 }
 
+.action-btn:hover {
+    color: var(--inserts-color);
+}
+
 .action-btn img {
     width: 20px;
+}
+
+.action-btn:hover img {
+    filter:
+        brightness(0)
+        saturate(100%)
+        invert(39%) sepia(95%) saturate(1423%) hue-rotate(327deg) brightness(97%) contrast(97%);
 }

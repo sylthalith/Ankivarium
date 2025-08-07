@@ -4,6 +4,7 @@
     --background-color: #161822;
     --accent-color: #252a37;
     --inserts-color: #f8453f;
+    --color: #e3e6e8;
     --nav-height: 60px;
 }
 
@@ -11,7 +12,7 @@
     padding: 0;
     margin: 0;
     border: none;
-    color: #e3e6e8;
+    color: var(--color);
     box-sizing: border-box;
 }
 
@@ -29,12 +30,28 @@ body {
     padding-right: 2rem;
 }
 
-button {
-    background-color: var(--accent-color);
+.btn {
+    display: inline-block;
+    background: none;
 }
 
-.btn {
+.btn:hover {
+    transform: translateY(-2px);
+    color: var(--inserts-color);
+    cursor: pointer;
+    transition: transform 0.1s, color 0.1s;
+}
+
+.red-btn {
     background-color: var(--inserts-color);
+    color: var(--color);
+}
+
+.red-btn:hover {
+    transform: translateY(-3px);
+    background-color: #ff0900;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.1s;
 }
 
 nav {
@@ -47,9 +64,18 @@ nav {
     background-color: #252a37;
 }
 
+.menu {
+    height: 50%;
+    display: flex;
+}
+
 .menu a {
     margin-left: 10px;
     margin-right: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 input {
