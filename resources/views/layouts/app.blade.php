@@ -17,9 +17,9 @@
                 Ankivarium
             </div>
             <div class="menu">
-                <a href="#">Главная</a>
-                <a href="#">Карточки</a>
-                <a href="#">Статистика</a>
+                <a href="#" class="btn">Главная</a>
+                <a href="#" class="btn">Карточки</a>
+                <a href="#" class="btn">Статистика</a>
             </div>
             <div class="profile">
                 <a href="#">User</a>
