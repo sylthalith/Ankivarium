@@ -36,7 +36,9 @@ class DeckController extends Controller
     {
         $this->authorize('create', Deck::class);
 
-        $credentials = $request->validate(['name' => ['required', 'string']]);
+        $credentials = $request->validate([
+            'name' => ['required', 'string']
+        ]);
 
         $deck = auth()->user()->decks()->create($credentials);
 
@@ -48,7 +50,6 @@ class DeckController extends Controller
         $this->authorize('update', $deck);
 
         $credentials = $request->validate([
-            'deck_id' => ['required'],
             'new_deck_name' => ['required', 'string']
         ]);
 
@@ -57,7 +58,7 @@ class DeckController extends Controller
         return response()->json(['new_deck_name' => $deck->name]);
     }
 
-    public function destroy(Request $request, Deck $deck)
+    public function destroy(Deck $deck)
     {
         $this->authorize('delete', $deck);
 

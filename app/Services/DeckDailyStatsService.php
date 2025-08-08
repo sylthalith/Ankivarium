@@ -51,6 +51,21 @@ class DeckDailyStatsService
         $this->getStats($deck)->increment('cards_due');
     }
 
+    public function decrementCardsDue(Deck $deck)
+    {
+        $this->getStats($deck)->decrement('cards_due');
+    }
+
+    public function incrementCardsCompleted(Deck $deck)
+    {
+        $this->getStats($deck)->increment('cards_completed');
+    }
+
+    public function decrementCardsCompleted(Deck $deck)
+    {
+        $this->getStats($deck)->decrement('cards_completed');
+    }
+
     public function deleteOldStats(Deck $deck)
     {
         $deck->stats()->get()->each->delete();

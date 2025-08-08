@@ -90,6 +90,8 @@ class CardController extends Controller
 
         $card->delete();
 
+        $this->deckDailyStatsService->decrementCardsDue($card->deck);
+
         return response()->json();
     }
 }

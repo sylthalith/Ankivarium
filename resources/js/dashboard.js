@@ -3,46 +3,105 @@ import plusIcon from '../images/Plus.svg'
 import editIcon from '../images/EditOutlined.svg'
 import deleteIcon from '../images/DeleteOutlined.svg'
 
-const token = document.querySelector('meta[name="csrf-token"]').content
-
-document.querySelector('.new-deck').addEventListener('click', createDeck)
-
-async function createDeck() {
-    const deckName = prompt("Введите название колоды:")
-
+document.querySelector('.new-deck').addEventListener('click', async () => {
+    let deckName = prompt("Введите название колоды:")
     if (!deckName) return
 
-    const formData = new FormData()
-    formData.append('name', deckName)
-    formData.append('_token', token)
+    try {
+        const response = await sendRequest('/decks', 'POST', {'name': deckName})
+        showDeck(response)
+    } catch(error) {
+        alert(error.message || 'Не удалось создать колоду')
+    }
+})
 
-    const response = await fetch('/decks/create', {
-        method: 'POST',
-        body: formData
-    })
+document.querySelector('.decks').addEventListener('click', async (event) => {
+    const btn = event.target.closest('button');
+    if (!btn) return
 
-    if (!response.ok) {
-        alert('Ошибка при создании колоды')
-        return
+    let deck = btn.closest('.deck')
+    if (!deck) return
+
+    if (btn.classList.contains('edit-btn')) {
+        await editBtn(deck)
     }
 
-    const data = await response.json()
+    if (btn.classList.contains('delete-btn')) {
+        await deleteBtn(deck)
+    }
+})
 
-    showDeck(data)
+async function sendRequest(url, method, body = null) {
+    const init = {
+        method: method,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json'
+        },
+    }
+
+    if (body && method !== 'GET') {
+        init.body = JSON.stringify(body)
+    }
+
+    try {
+        const response = await fetch(url, init)
+
+        if (!response.ok) {
+            throw new Error('Ошибка на сервере')
+        }
+
+        return await response.json()
+    } catch (error) {
+        throw error
+    }
+}
+
+async function editBtn(deck){
+    let deckId = deck.getAttribute('data-deck-id')
+    if (!deckId) return
+
+    const newDeckName = prompt("Введите новое название колоды:")
+
+    if (!newDeckName) return
+
+    try {
+        const response = await sendRequest(`/decks/${deckId}`, 'PATCH', {'new_deck_name': newDeckName})
+
+        let deckTitle = deck.querySelector('.deck-title').querySelector('h3')
+        if (deckTitle) {
+            deckTitle.textContent = response.new_deck_name;
+        }
+    } catch (error) {
+        alert(error.message || 'Не удалось изменить колоду')
+    }
+}
+
+async function deleteBtn(deck){
+    if (!confirm('Вы уверены, что хотите удалить эту колоду?')) return
+
+    let deckId = deck.getAttribute('data-deck-id')
+    if (!deckId) return
+
+    try {
+        await sendRequest(`decks/${deckId}`, 'DELETE')
+        deck.remove()
+    } catch (error) {
+        alert(error.message || 'Не удалось удалить колоду')
+    }
 }
 
 function showDeck(data) {
-    const decks = document.querySelector('.decks')
-
     const div = document.createElement('div')
     div.classList.add('deck')
     div.setAttribute('data-deck-id', data.deck_id)
-    div.innerHTML = newDeck(data)
+    div.innerHTML = deckHTML(data)
 
+    const decks = document.querySelector('.decks')
     decks.appendChild(div)
 }
 
-function newDeck(data) {
+function deckHTML(data) {
     return `
         <div class="deck-title">
             <h3>${data.deck_name}</h3>
@@ -76,60 +135,3 @@ function newDeck(data) {
         </div>
     `
 }
-
-document.querySelector('.decks').addEventListener('click', async (event) => {
-    const btn = event.target.closest('button');
-    if (!btn) return
-
-    let deck = btn.closest('.deck')
-    let deckId = deck.getAttribute('data-deck-id')
-    if (!deckId) return
-
-    if (btn.classList.contains('edit-btn')) {
-        const newDeckName = prompt("Введите новое название колоды:")
-
-        if(!newDeckName) return
-
-        const formData = new FormData()
-        formData.append('deck_id', deckId)
-        formData.append('new_deck_name', newDeckName)
-        formData.append('_token', token)
-
-        const response = await fetch('decks/edit', {
-            method: 'POST',
-            body: formData
-        })
-
-        if (!response.ok) {
-            alert('Ошибка при изменении колоды')
-            return
-        }
-
-        let data = await response.json()
-
-        let deckTitle = deck.querySelector('.deck-title').querySelector('h3')
-        if (deckTitle) {
-            deckTitle.textContent = data.new_deck_name;
-        }
-    }
-
-    if (btn.classList.contains('delete-btn')) {
-        if (!confirm('Вы уверены, что хотите удалить эту колоду?')) return
-
-        const formData = new FormData()
-        formData.append('deck_id', deckId)
-        formData.append('_token', token)
-
-        const response = await fetch('decks/delete', {
-            method: 'POST',
-            body: formData
-        })
-
-        if (!response.ok) {
-            alert('Ошибка при удалении колоды')
-            return
-        }
-
-        deck.remove()
-    }
-})
