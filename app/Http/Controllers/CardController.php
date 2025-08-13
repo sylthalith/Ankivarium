@@ -13,7 +13,7 @@ class CardController extends Controller
 {
     use AuthorizesRequests;
 
-    public DeckDailyStatsService $deckDailyStatsService;
+    private DeckDailyStatsService $deckDailyStatsService;
 
     public function __construct(DeckDailyStatsService $deckDailyStatsService)
     {

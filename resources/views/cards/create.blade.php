@@ -1,6 +1,6 @@
 <x-app-layout title="Создать карточку">
     @push('styles')
-        @vite(['resources/css/auth.css'])
+        @vite(['resources/css/center-div.css'])
     @endpush
 
     <div class="center">

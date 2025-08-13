@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\StudyController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -44,6 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cards/{card}', [CardController::class, 'update'])->name('cards.update');
 
     Route::delete('/cards/{card}', [CardController::class, 'destroy'])->name('cards.destroy');
+
+    // Обучение
+
+    Route::post('/study', [StudyController::class, 'create'])->name('study.create');
+
+    Route::get('/study/{deck}', [StudyController::class, 'next'])->name('study.next');
+
+    Route::post('/study/{card}', [StudyController::class, 'answer'])->name('study.answer');
 
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');

@@ -64,18 +64,6 @@ progress {
     width: 100%;
 }
 
-/* Цвет заполненной части (Chrome, Edge, Safari) */
-progress::-webkit-progress-value {
-    background-color: #f8453f; /* Зелёный */
-    border-radius: 5px;
-}
-
-/* Цвет фона (незаполненной части) */
-progress::-webkit-progress-bar {
-    background-color: #f0f0f0;
-    border-radius: 5px;
-}
-
 .actions {
     display: flex;
     flex-direction: row;

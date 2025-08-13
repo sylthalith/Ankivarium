@@ -24,7 +24,7 @@
     <div class="decks">
     @foreach ($decks as $deck)
         @php
-            $cardsDue =  $stats[$deck->id]->cards_due;
+            $cardsDue = $stats[$deck->id]->cards_due;
             $cardsCompleted = $stats[$deck->id]->cards_completed;
         @endphp
         <div class="deck" data-deck-id="{{ $deck->id }}">
@@ -38,13 +38,17 @@
                 <progress max="{{ $cardsDue }}" value="{{ $cardsCompleted }}"></progress>
             </div>
             <div class="progress">
-                Изучено: {{ $cardsCompleted }}/{{ $cardsDue }} ({{ $cardsDue == 0 ? 0 : round($cardsCompleted / $cardsDue)}}%)
+                Изучено: {{ $cardsCompleted }}/{{ $cardsDue }} ({{ $cardsDue == 0 ? 0 : round($cardsCompleted / $cardsDue * 100)}}%)
             </div>
             <div class="actions">
-                <button class="btn action-btn study-btn">
-                    <img src="{{ Vite::asset('resources/images/Play.svg') }}">
-                    Учить
-                </button>
+                <form method="POST" action="{{ route('study.create') }}">
+                    @csrf
+                    <input type="hidden" name="deck_id" value="{{ $deck->id }}">
+                    <button type="submit" class="btn action-btn study-btn">
+                        <img src="{{ Vite::asset('resources/images/Play.svg') }}">
+                        Учить
+                    </button>
+                </form>
                 <form method="GET" action="{{ route('cards.create', ['deck' => $deck]) }}">
                     <input type="hidden" name="deck_id" value="{{ $deck->id }}">
                     <button type="submit" class="btn action-btn add-btn">
