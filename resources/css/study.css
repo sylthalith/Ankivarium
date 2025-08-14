@@ -3,16 +3,35 @@
     flex-direction: column;
     width: 600px;
     gap: 2rem;
+    perspective: 1000px;
+}
+
+.flipped {
+    transform: rotateY(180deg);
 }
 
 .card {
     height: 400px;
     width: 100%;
     background-color: var(--accent-color);
-    padding: 2rem;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+    transform-style: preserve-3d;
+    transition: transform 0.6s, opacity 0.3s ease;
+    position: relative;
+}
+
+.front, .back {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden; /* скрывает обратную сторону при повороте */
+    padding: 2rem;
+    top: 0;
+    left: 0;
+}
+
+.back {
+    transform: rotateY(180deg); /* тыльная сторона изначально повернута */
 }
 
 .deck-info {

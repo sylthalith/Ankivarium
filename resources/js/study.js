@@ -10,14 +10,9 @@ async function main() {
         }
     }
 
-    console.log('Получена карточка')
-    console.log(data)
-
     nextData = getCard()
 
-    refreshProgress()
-
-    showFront()
+    refreshElementsText()
 }
 
 async function getCard() {
@@ -28,48 +23,21 @@ async function getCard() {
     }
 }
 
-function refreshProgress() {
+function refreshElementsText() {
+    frontText.textContent = data.front
+
     progress.value = data.cards_completed
     progress.max = data.cards_due
     progressText.textContent = `Карточка ${data.cards_completed} из ${data.cards_due}`
-}
 
-function showFront() {
-    text.textContent = data.front
+    setTimeout(() => {
+        backText.textContent = data.back
 
-    text.classList.remove('hidden')
-    show.classList.remove('hidden')
-}
-
-function showBack() {
-    text.textContent = data.back
-
-    setIntervalsForBtns()
-
-    show.classList.add('hidden')
-
-    showDifficultyBtns()
-}
-
-function setIntervalsForBtns() {
-    again.querySelector('.time').textContent = `${data.intervals.again}д`
-    hard.querySelector('.time').textContent = `${data.intervals.hard}д`
-    good.querySelector('.time').textContent = `${data.intervals.good}д`
-    easy.querySelector('.time').textContent = `${data.intervals.easy}д`
-}
-
-function showDifficultyBtns() {
-    again.classList.remove('hidden')
-    hard.classList.remove('hidden')
-    good.classList.remove('hidden')
-    easy.classList.remove('hidden')
-}
-
-function hideDifficultyBtns() {
-    again.classList.add('hidden')
-    hard.classList.add('hidden')
-    good.classList.add('hidden')
-    easy.classList.add('hidden')
+        again.querySelector('.time').textContent = `${data.intervals.again}д`
+        hard.querySelector('.time').textContent = `${data.intervals.hard}д`
+        good.querySelector('.time').textContent = `${data.intervals.good}д`
+        easy.querySelector('.time').textContent = `${data.intervals.easy}д`
+    }, 350)
 }
 
 async function submit(rating) {
@@ -81,18 +49,12 @@ async function submit(rating) {
         return
     }
 
-    console.log('Получены данные при ответе')
-    console.log(response)
-
     try {
         nextData = await nextData
     } catch (error) {
         alert(error.message)
         return
     }
-
-    console.log('Следующая карточка')
-    console.log(nextData)
 
     if (!nextData) {
         if (data.intervals[rating] >= 1) {
@@ -102,8 +64,8 @@ async function submit(rating) {
             data.cards_completed = response.cards_completed
             data.cards_due = response.cards_due
 
-            hideDifficultyBtns()
-            await main()
+            card.classList.remove('flipped')
+            main()
         }
 
     } else {
@@ -111,8 +73,8 @@ async function submit(rating) {
         data.cards_completed = response.cards_completed
         data.cards_due = response.cards_due
 
-        hideDifficultyBtns()
-        await main()
+        card.classList.remove('flipped')
+        main()
     }
 }
 
@@ -125,8 +87,11 @@ async function sendRating(cardId, rating) {
 }
 
 const deckId = document.querySelector('meta[name="deck-id"]').content
-const text = document.querySelector('.card-text')
-const show = document.getElementById('show')
+const card = document.querySelector('.card')
+const front = document.querySelector('.front')
+const back = document.querySelector('.back')
+const frontText = document.getElementById('front-text')
+const backText = document.getElementById('back-text')
 const again = document.getElementById('again')
 const hard = document.getElementById('hard')
 const good = document.getElementById('good')
@@ -134,12 +99,15 @@ const easy = document.getElementById('easy')
 const progress = document.querySelector('progress')
 const progressText = document.getElementById('progress-text')
 
-document.querySelector('.actions').addEventListener('click', (event) => {
+document.getElementById('show').addEventListener('click', () => {
+    card.classList.add('flipped')
+})
+
+document.getElementById('back-actions').addEventListener('click', (event) => {
     const btn = event.target.closest('button')
     if (!btn) return
 
     switch (btn.id) {
-        case 'show':  return showBack()
         case 'again': return submit('again')
         case 'hard':  return submit('hard')
         case 'good':  return submit('good')

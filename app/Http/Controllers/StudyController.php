@@ -38,6 +38,8 @@ class StudyController extends Controller
             return redirect()->route('dashboard');
         }
 
+        session()->forget('last_review_card_id');
+
         return view('study.create', ['deck' => $deck]);
     }
 
