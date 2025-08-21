@@ -45,6 +45,9 @@ body {
 .red-btn {
     background-color: var(--inserts-color);
     color: var(--color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .red-btn:hover {

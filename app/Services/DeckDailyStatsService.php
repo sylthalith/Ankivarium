@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Card;
 use App\Models\Deck;
 use Illuminate\Support\Carbon;
 
@@ -22,7 +23,9 @@ class DeckDailyStatsService
     {
         $this->deleteOldStats($deck);
 
-        $cardsDue = $deck->cards()->where('next_review_date', '<=', Carbon::now()->toDateString())->count();
+        $today = Carbon::now()->toDateString();
+
+        $cardsDue = $deck->cards()->where('next_review_date', '<=', $today)->count();
 
         return $deck->stats()->create([
             'cards_due' => $cardsDue,
@@ -69,5 +72,27 @@ class DeckDailyStatsService
     public function deleteOldStats(Deck $deck)
     {
         $deck->stats()->get()->each->delete();
+    }
+
+    public function addCardToDeck(Card $card, Deck $deck) {
+        $today = Carbon::today()->toDateString();
+
+        if ($card->next_review_date <= $today) {
+            $this->incrementCardsDue($deck);
+        }
+    }
+
+    public function removeCardFromDeck(Card $card, Deck $deck) {
+        $today = Carbon::today()->toDateString();
+
+        $isCardReviewedToday = $card->reviewed_at === $today;
+
+        if ($isCardReviewedToday || $card->next_review_date <= $today) {
+            $this->decrementCardsDue($deck);
+        }
+
+        if ($isCardReviewedToday) {
+            $this->decrementCardsCompleted($deck);
+        }
     }
 }

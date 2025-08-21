@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
     // Карточки
 
-    Route::get('/decks/{deck}/cards', [CardController::class, 'index'])->name('cards.index');
+    Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
 
     Route::get('/decks/{deck}/cards/create', [CardController::class, 'create'])->name('cards.create');
 

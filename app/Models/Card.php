@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-    protected $fillable = ['deck_id', 'front', 'back', 'interval', 'next_review_date', 'type'];
+    protected $fillable = ['deck_id', 'front', 'back', 'interval', 'next_review_date', 'reviewed_at','type'];
 
     public function deck()
     {

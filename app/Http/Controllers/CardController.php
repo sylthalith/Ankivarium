@@ -8,6 +8,7 @@ use App\Services\DeckDailyStatsService;
 use App\Policies\CardPolicy;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class CardController extends Controller
 {
@@ -64,7 +65,9 @@ class CardController extends Controller
     {
         $this->authorize('update', $card);
 
-        return view('cards.edit', ['card' => $card]);
+        $decks = auth()->user()->decks()->get();
+
+        return view('cards.edit', compact('card', 'decks'));
     }
 
     public function update(Request $request, Card $card)
@@ -72,26 +75,36 @@ class CardController extends Controller
         $this->authorize('update', $card);
 
         $credentials = $request->validate([
+            'deck_id' => ['required'],
             'front' => ['required'],
             'back' => ['required'],
         ]);
 
+        $oldDeck = $card->deck;
+        $newDeck = auth()->user()->decks()->findOrFail($credentials['deck_id']);
+
         $card->update([
+            'deck_id' => $newDeck->id,
             'front' => $credentials['front'],
             'back' => $credentials['back'],
         ]);
 
-        return view('cards.index');
+        if ($newDeck->isNot($oldDeck)) {
+            $this->deckDailyStatsService->removeCardFromDeck($card, $oldDeck);
+            $this->deckDailyStatsService->addCardToDeck($card, $newDeck);
+        }
+
+        return redirect()->route('cards.index');
     }
 
     public function destroy(Card $card)
     {
         $this->authorize('delete', $card);
 
+        $this->deckDailyStatsService->removeCardFromDeck($card, $card->deck);
+
         $card->delete();
 
-        $this->deckDailyStatsService->decrementCardsDue($card->deck);
-
-        return response()->json();
+        return response()->noContent();
     }
 }

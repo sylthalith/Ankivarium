@@ -1,5 +1,4 @@
 import { sendRequest } from "./utils/request.js";
-import { deckHTML } from "./utils/deck.js";
 
 document.querySelector('.new-deck').addEventListener('click', async () => {
     let deckName = prompt("Введите название колоды:")
@@ -64,12 +63,6 @@ async function deleteBtn(deck){
 }
 
 function showDeck(data) {
-    const div = document.createElement('div')
-    div.classList.add('deck')
-    div.setAttribute('data-deck-id', data.deck_id)
-    div.innerHTML = deckHTML()
-    div.querySelector('.deck-title').querySelector('h3').textContent = data.deck_name
-
     const decks = document.querySelector('.decks')
-    decks.appendChild(div)
+    decks.insertAdjacentHTML('beforeend', data.deck_html)
 }

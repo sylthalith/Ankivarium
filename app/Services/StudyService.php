@@ -60,15 +60,18 @@ class StudyService
 
         $today = Carbon::now()->toDateString();
 
-        if ($nextReviewDate > $today) {
-            $this->deckDailyStatsService->incrementCardsCompleted($card->deck);
-        }
-
-        $card->update([
+        $updateData = [
             'interval' => $nextInterval,
             'next_review_date' => $nextReviewDate,
             'type' => $cardType,
-        ]);
+        ];
+
+        if ($nextReviewDate > $today) {
+            $this->deckDailyStatsService->incrementCardsCompleted($card->deck);
+            $updateData['reviewed_at'] = $today;
+        }
+
+        $card->update($updateData);
     }
 
     public function calculateNextIntervals(float $interval, bool $rounded = false)

@@ -1,0 +1,95 @@
+@import "./header.css";
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#new-card {
+    padding: 6px 20px;
+    border-radius: 5px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.red-btn {
+
+    padding: 6px 20px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cards {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*gap: 24px;*/
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr) );
+    gap: 1.5rem;
+}
+
+.card {
+    padding: 20px;
+    background-color: var(--accent-color);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 6px;
+}
+
+.card-front {
+    padding: 16px;
+    background-color: rgb(43, 46, 65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+pre {
+    white-space: pre-line;
+    font: inherit;
+}
+
+.card-deck-and-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-deck {
+    color: #a0a0a0;
+    font-size: 12px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
+.red-btn {
+    padding: 4px;
+}
+
+.edit-btn {
+    background-color: rgb(74, 144, 226);
+}
+
+.edit-btn:hover {
+    background-color: rgb(53, 122, 189);
+}
+
+svg {
+    width: 16px;
+    height: 16px;
+}

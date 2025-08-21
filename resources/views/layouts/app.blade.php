@@ -18,8 +18,8 @@
                 Ankivarium
             </div>
             <div class="menu">
-                <a href="#" class="btn">Главная</a>
-                <a href="#" class="btn">Карточки</a>
+                <a href="{{ route('dashboard') }}" class="btn">Главная</a>
+                <a href="{{ route('cards.index') }}" class="btn">Карточки</a>
                 <a href="#" class="btn">Статистика</a>
             </div>
             <div class="profile">

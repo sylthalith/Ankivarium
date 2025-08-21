@@ -15,6 +15,7 @@ export async function sendRequest(url, method = 'GET', body = null) {
         const response = await fetch(url, init)
 
         if (!response.ok) {
+            console.log(await response.text())
             throw new Error('Ошибка на сервере')
         }
 

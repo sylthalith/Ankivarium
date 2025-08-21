@@ -41,8 +41,11 @@ class DeckController extends Controller
         ]);
 
         $deck = auth()->user()->decks()->create($credentials);
+        $this->deckDailyStatsService->createStats($deck);
 
-        return response()->json(['deck_id' => $deck->id, 'deck_name' => $deck->name]);
+        $deckHTML = view('components.deck', ['deck' => $deck])->render();
+
+        return response()->json(['deck_html' => $deckHTML]);
     }
 
     public function update(Request $request, Deck $deck)

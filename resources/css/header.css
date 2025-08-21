@@ -1,0 +1,33 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 140px;
+    flex-wrap: wrap;
+}
+
+.search-menu {
+    display: flex;
+    height: 35px;
+}
+
+input {
+    /*width: 320px;*/
+    width: calc(100% - 35px);
+    min-width: 100px;
+    padding-left: 10px;
+}
+
+.search-menu button {
+    height: 35px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search {
+    display: flex;
+    height: 25px;
+    filter: brightness(0) invert(1);
+}

@@ -54,7 +54,7 @@
             </div>
             <div class="progress">
                 <progress></progress>
-                <div id="progress-text"></div>
+                <div id="progress-text">Карточка 0 из ?</div>
             </div>
         </div>
     </div>
