@@ -12,7 +12,6 @@ header {
 }
 
 input {
-    /*width: 320px;*/
     width: calc(100% - 35px);
     min-width: 100px;
     padding-left: 10px;
@@ -26,8 +25,7 @@ input {
     justify-content: center;
 }
 
-.search {
-    display: flex;
+#search-icon {
     height: 25px;
-    filter: brightness(0) invert(1);
+    width: 25px;
 }

@@ -35,9 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
 
-    Route::get('/decks/{deck}/cards/create', [CardController::class, 'create'])->name('cards.create');
+    Route::post('/cards/create', [CardController::class, 'create'])->name('cards.create');
 
-    Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
+    Route::post('/cards/store', [CardController::class, 'store'])->name('cards.store');
 
     Route::get('/cards/{card}/edit', [CardController::class, 'edit'])->name('cards.edit');
 

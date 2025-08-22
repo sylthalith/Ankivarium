@@ -10,11 +10,10 @@
                 <label for="deck_id">Deck</label>
                 <select name="deck_id" id="deck_id">
                     @foreach($decks as $deck)
-                        @if($selected_deck->id == $deck->id)
-                            <option value="{{ $deck->id }}" selected>{{ $deck->name }}</option>
-                        @else
-                            <option value="{{ $deck->id }}">{{ $deck->name }}</option>
-                        @endif
+                        <option value="{{ $deck->id }}"
+                            {{ $selected_deck && $selected_deck->id == $deck->id ? 'selected' : '' }}>
+                            {{ $deck->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>

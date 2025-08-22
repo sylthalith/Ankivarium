@@ -30,9 +30,18 @@ class CardController extends Controller
         return view('cards.index', ['cards' => $cards]);
     }
 
-    public function create(Deck $deck)
+    public function create(Request $request)
     {
-        $this->authorize('create', $deck);
+        $credentials = $request->validate([
+            'deck_id' => ['sometimes', 'nullable', 'exists:decks,id'],
+        ]);
+
+        if (isset($credentials['deck_id'])) {
+            $deck = auth()->user()->decks()->findOrFail($credentials['deck_id']);
+            $this->authorize('create', $deck);
+        } else {
+            $deck = null;
+        }
 
         $decks = auth()->user()->decks()->get();
 

@@ -1,5 +1,3 @@
-@import "./header.css";
-
 .actions {
     display: flex;
     flex-direction: row;
@@ -13,11 +11,10 @@
     margin-bottom: 20px;
 }
 
-.red-btn {
-
-    padding: 6px 20px;
-    border-radius: 5px;
-    align-items: center;
+.plus {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
 }
 
 .filters {
@@ -77,8 +74,10 @@ pre {
     justify-content: end;
 }
 
-.red-btn {
-    padding: 4px;
+.edit-btn, .delete-btn {
+    padding: 4px 16px;
+    border-radius: 5px;
+    align-items: center;
 }
 
 .edit-btn {
@@ -89,7 +88,7 @@ pre {
     background-color: rgb(53, 122, 189);
 }
 
-svg {
+.icon {
     width: 16px;
     height: 16px;
 }
