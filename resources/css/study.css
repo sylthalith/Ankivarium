@@ -88,6 +88,12 @@
     transition: background-color 0.2s, transform 0.2s;
 }
 
+.difficulty-btn svg {
+    fill: var(--color);
+    stroke: var(--color);
+    transition: fill 0.2s, stroke 0.2s;
+}
+
 .answer-btn img {
     width: 20px;
 }
