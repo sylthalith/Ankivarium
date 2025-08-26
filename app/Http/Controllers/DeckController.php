@@ -6,6 +6,8 @@ use App\Models\Deck;
 use App\Services\DeckDailyStatsService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DeckController extends Controller
 {
@@ -20,6 +22,12 @@ class DeckController extends Controller
 
     public function index()
     {
+        Log::info('Dashboard accessed', [
+            'user_id' => Auth::id(),
+            'auth_check' => Auth::check(),
+            'session_id' => session()->getId(),
+        ]);
+
         $this->authorize('viewAny', Deck::class);
 
         $decks = auth()->user()->decks()->get();

@@ -25,9 +25,7 @@ class LoginController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'name' => 'Неверные учетные данные'
-        ]);
+        return back()->withErrors(['name' => 'Неверные учетные данные']);
     }
 
     public function destroy(Request $request): RedirectResponse

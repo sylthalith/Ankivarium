@@ -62,4 +62,9 @@ class User extends Authenticatable
             'id'         // локальный ключ в decks
         );
     }
+
+    public function socialAccount()
+    {
+        return $this->hasOne(SocialAccount::class);
+    }
 }

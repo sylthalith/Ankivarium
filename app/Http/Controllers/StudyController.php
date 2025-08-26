@@ -31,8 +31,9 @@ class StudyController extends Controller
 
         $this->authorize('view',  $deck);
 
-        $cardsCompleted = $this->deckDailyStatsService->getStats($deck)->cards_completed;
-        $cardsDue = $this->deckDailyStatsService->getStats($deck)->cards_due;
+        $stats = $this->deckDailyStatsService->getStats($deck);
+        $cardsCompleted = $stats->cards_completed;
+        $cardsDue = $stats->cards_due;
 
         if ($cardsCompleted >= $cardsDue) {
             return redirect()->route('dashboard');

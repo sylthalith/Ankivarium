@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\StudyController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::middleware('guest')->group(function () {
     Route::view('/', 'welcome')->name('welcome');
@@ -17,6 +20,20 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
 
     Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+
+    // OAuth
+
+    Route::get('auth/yandex/redirect', [SocialController::class, 'handleYandexRedirect']);
+
+    Route::get('auth/yandex/callback', [SocialController::class, 'handleYandexCallback']);
+
+
+    Route::get('auth/google/redirect', [SocialController::class, 'handleGoogleRedirect']);
+
+    Route::get('auth/google/callback', [SocialController::class, 'handleGoogleCallback']);
+
+
+    Route::get('auth/vk/callback', [SocialController::class, 'handleVKCallback']);
 });
 
 Route::middleware('auth')->group(function () {
